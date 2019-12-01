@@ -2,7 +2,6 @@ package day1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
 
