@@ -1,6 +1,5 @@
 package day2;
 
-import javax.print.attribute.standard.PresentationDirection;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
@@ -8,11 +7,10 @@ import java.util.Scanner;
 
 public class Intcode {
 
-    private int[] data;
     private int counter;
 
     private int run(final int[] originalData, final int noun, final int verb) {
-        data = Arrays.copyOf(originalData, originalData.length);
+        int[] data = Arrays.copyOf(originalData, originalData.length);
         data[1] = noun;
         data[2] = verb;
         for (int i = 0; i < data.length; i += 4) {
@@ -98,7 +96,6 @@ public class Intcode {
             else
                 noun++;
         }
-        System.out.print("n Element not found");
         return null;
     }
 
