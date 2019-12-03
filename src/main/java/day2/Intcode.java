@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Intcode {
 
     private int[] data;
+    private int counter;
 
     private int run(final int[] originalData, final int noun, final int verb) {
         data = Arrays.copyOf(originalData, originalData.length);
@@ -25,21 +26,49 @@ public class Intcode {
     }
 
     private Integer find(int[] data, int target) {
-        for (int noun = 12; noun < 100000; noun++) {
-            for (int verb = 2; verb < 100000; verb++) {
-                try {
+        counter = 0;
+        for (int noun = 12; noun < data.length; noun++) {
+            for (int verb = 2; verb < data.length; verb++) {
+
                     int res = run(data, noun, verb);
-                    System.out.println(noun + "," + verb + " = " + res);
+                    counter++;
+                    System.out.println((counter++) + ": " + noun + "," + verb + " = " + res);
                     if (res == target) {
                         return noun * 100 + verb;
                     }
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    break;
-                }
             }
         }
 
         return null;
+    }
+
+    private Integer binarySearch(int[] data, int target) {
+        counter = 0;
+        return binarySearch(data, 0,data.length - 1, 0, data.length - 1, target);
+    }
+
+    private Integer binarySearch(int[] data, int n1, int n2, int v1, int v2, int target) {
+        if (n1 < 0 || n2 < 0 || n2 >= data.length || n1 > n2 ||
+                v1 < 0 || v2 < 0 || v2 >= data.length || v1 > v2) {
+            return null;
+        }
+
+        int nm = n1 + (n2 - n1) / 2, vm = v1 + (v2 - v1) / 2;
+        int res = run(data, nm, vm);
+        System.out.println((counter++) + " : " + "n: " + n1 + "->" + n2 + ", v: " + v1 + "->" + v2 + " = " + res);
+        Integer config;
+        if (res == target) {
+            config = nm * 100 + vm;
+        } else if (res < target) {
+            config = binarySearch(data, n1, nm, vm + 1, v2, target);
+            if (config == null)
+                config = binarySearch(data, nm + 1, n2, v1, v2, target);
+        } else {
+            config = binarySearch(data, nm, n2, v1, vm - 1, target);
+            if (config == null)
+                config = binarySearch(data, n1, nm - 1, v1, v2, target);
+        }
+        return config;
     }
 
     public static void main(String[] args) {
