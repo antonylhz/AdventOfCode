@@ -29,13 +29,11 @@ public class Intcode {
         counter = 0;
         for (int noun = 12; noun < data.length; noun++) {
             for (int verb = 2; verb < data.length; verb++) {
-
-                    int res = run(data, noun, verb);
-                    counter++;
-                    System.out.println((counter++) + ": " + noun + "," + verb + " = " + res);
-                    if (res == target) {
-                        return noun * 100 + verb;
-                    }
+                int res = run(data, noun, verb);
+                System.out.println((counter++) + ": " + noun + "," + verb + " = " + res);
+                if (res == target) {
+                    return noun * 100 + verb;
+                }
             }
         }
 
@@ -44,7 +42,7 @@ public class Intcode {
 
     private Integer binarySearch(int[] data, int target) {
         counter = 0;
-        return binarySearch(data, 0,data.length - 1, 0, data.length - 1, target);
+        return binarySearch(data, 0, data.length - 1, 0, data.length - 1, target);
     }
 
     private Integer binarySearch(int[] data, int n1, int n2, int v1, int v2, int target) {
@@ -83,7 +81,7 @@ public class Intcode {
                     data[i] = Integer.parseInt(tokens[i]);
                 }
                 Intcode intcode = new Intcode();
-                System.out.println(intcode.find(data,19690720));
+                System.out.println(intcode.find(data, 19690720));
             }
         } catch (Exception e) {
             e.printStackTrace();
