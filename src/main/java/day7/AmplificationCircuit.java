@@ -10,14 +10,14 @@ public class AmplificationCircuit {
 
     private int ampSize;
     private LinkedList<IntCodeComputer> amplifiers;
-    private int[] data;
+    private long[] data;
 
-    public AmplificationCircuit(int[] data, int ampSize) {
+    public AmplificationCircuit(long[] data, int ampSize) {
         this.ampSize = ampSize;
         this.data = data;
         amplifiers = new LinkedList<>();
         for (int i = 0; i < ampSize; i++) {
-            amplifiers.add(new IntCodeComputer(Arrays.copyOf(data, data.length)));
+            amplifiers.add(new IntCodeComputer(data.length, Arrays.copyOf(data, data.length)));
         }
     }
 
@@ -25,17 +25,17 @@ public class AmplificationCircuit {
     public void reset() {
         amplifiers.clear();
         for (int i = 0; i < ampSize; i++) {
-            amplifiers.add(new IntCodeComputer(Arrays.copyOf(data, data.length)));
+            amplifiers.add(new IntCodeComputer(data.length, Arrays.copyOf(data, data.length)));
         }
     }
 
-    private int calculateSignal(List<Integer> phaseSettings, boolean firstLoop, int start) {
-        LinkedList<Integer> input = new LinkedList<>();
-        LinkedList<Integer> output;
-        int extra = start;
+    private long calculateSignal(List<Integer> phaseSettings, boolean firstLoop, long start) {
+        LinkedList<Long> input = new LinkedList<>();
+        LinkedList<Long> output;
+        long extra = start;
         for (int i = 0; i < amplifiers.size(); i++) {
             if (firstLoop) {
-                input.add(phaseSettings.get(i));
+                input.add((long) phaseSettings.get(i));
             }
             input.add(extra);
             if ((output = amplifiers.get(i).run(input)).isEmpty()) {
@@ -47,19 +47,19 @@ public class AmplificationCircuit {
         return extra;
     }
 
-    public int calculateSignalInFeedbackLoop(List<Integer> phaseSettings) {
-        int signal = calculateSignal(phaseSettings, true, 0);
+    public long calculateSignalInFeedbackLoop(List<Integer> phaseSettings) {
+        long signal = calculateSignal(phaseSettings, true, 0);
         while(!amplifiers.isEmpty() && !amplifiers.peekLast().isHalted) {
             signal = calculateSignal(phaseSettings, false, signal);
         }
         return signal;
     }
 
-    public int findLargestSignalInOneLoop() {
+    public long findLargestSignalInOneLoop() {
         List<List<Integer>> phaseSettings = permute(0, 4);
-        int largest = 0;
+        long largest = 0;
         for (List<Integer> phaseSetting : phaseSettings) {
-            int signal = calculateSignal(phaseSetting, true, 0);
+            long signal = calculateSignal(phaseSetting, true, 0);
             System.out.println(phaseSetting + "->" + signal);
             largest = Math.max(largest, signal);
             reset();
@@ -67,11 +67,11 @@ public class AmplificationCircuit {
         return largest;
     }
 
-    public int findLargestSignalInFeedbackLoop() {
+    public long findLargestSignalInFeedbackLoop() {
         List<List<Integer>> phaseSettings = permute(5, 9);
-        int largest = 0;
+        long largest = 0;
         for (List<Integer> phaseSetting : phaseSettings) {
-            int signal = calculateSignalInFeedbackLoop(phaseSetting);
+            long signal = calculateSignalInFeedbackLoop(phaseSetting);
             System.out.println(phaseSetting + "->" + signal);
             largest = Math.max(largest, signal);
             reset();
@@ -102,9 +102,9 @@ public class AmplificationCircuit {
             Scanner scanner = new Scanner(new File(url.getFile()));
             while (scanner.hasNextLine()) {
                 String[] tokens = scanner.nextLine().split(",");
-                int[] data = new int[tokens.length];
+                long[] data = new long[tokens.length];
                 for (int i = 0; i < data.length; i++) {
-                    data[i] = Integer.parseInt(tokens[i]);
+                    data[i] = Long.parseLong(tokens[i]);
                 }
                 AmplificationCircuit amplificationCircuit = new AmplificationCircuit(data, 5);
                 System.out.println(amplificationCircuit.findLargestSignalInOneLoop());
