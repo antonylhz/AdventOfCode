@@ -1,5 +1,9 @@
 plugins {
-    id 'java'
+    id 'application'
+}
+
+application {
+    mainClassName = project.hasProperty("mainClass") ? getProperty("mainClass") : "NULL"
 }
 
 group 'com.antonylhz'
