@@ -1,9 +1,8 @@
 package day2;
 
-import java.io.File;
-import java.net.URL;
+import util.AocInputReader;
+
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Intcode {
 
@@ -100,22 +99,13 @@ public class Intcode {
     }
 
     public static void main(String[] args) {
-        try {
-            URL url = Intcode.class.getClassLoader().getResource("day2/input");
-            assert url != null;
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            while (scanner.hasNextLine()) {
-                String[] tokens = scanner.nextLine().split(",");
-                int[] data = new int[tokens.length];
-                for (int i = 0; i < tokens.length; i++) {
-                    data[i] = Integer.parseInt(tokens[i]);
-                }
-                Intcode intcode = new Intcode();
-                System.out.println(intcode.cornerSearch(data, 19690720));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        String[] tokens = AocInputReader.readLines("day2/input")[0].split(",");
+        int[] data = new int[tokens.length];
+        for (int i = 0; i < tokens.length; i++) {
+            data[i] = Integer.parseInt(tokens[i]);
         }
+        Intcode intcode = new Intcode();
+        System.out.println(intcode.cornerSearch(data, 19690720));
     }
 }
 

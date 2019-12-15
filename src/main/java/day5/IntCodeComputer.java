@@ -1,7 +1,7 @@
 package day5;
 
-import java.io.File;
-import java.net.URL;
+import util.AocInputReader;
+
 import java.util.*;
 
 public class IntCodeComputer {
@@ -172,22 +172,13 @@ public class IntCodeComputer {
     }
 
     public static void main(String[] args) {
-        try {
-            URL url = IntCodeComputer.class.getClassLoader().getResource("day5/input");
-            assert url != null;
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            while (scanner.hasNextLine()) {
-                String[] tokens = scanner.nextLine().split(",");
-                long[] data = new long[tokens.length];
-                for (int i = 0; i < data.length; i++) {
-                    data[i] = Long.parseLong(tokens[i]);
-                }
-                LinkedList<Long> input = new LinkedList<>(Collections.singletonList(5L));
-                System.out.println(new IntCodeComputer(data.length, data).run(input));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        String[] tokens = AocInputReader.readLines("day5/input")[0].split(",");
+        long[] data = new long[tokens.length];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = Long.parseLong(tokens[i]);
         }
+        LinkedList<Long> input = new LinkedList<>(Collections.singletonList(5L));
+        System.out.println(new IntCodeComputer(data.length, data).run(input));
     }
 
 }

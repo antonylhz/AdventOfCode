@@ -1,17 +1,17 @@
 package day12;
 
-import java.io.File;
-import java.net.URL;
+import util.AocInputReader;
+
 import java.util.*;
 
 public class NBody {
 
     private Moon[] moons;
 
-    public NBody(List<String> data) {
-        this.moons = new Moon[data.size()];
+    public NBody(String[] data) {
+        this.moons = new Moon[data.length];
         for (int i = 0; i < moons.length; i++) {
-            String str = data.get(i);
+            String str = data[i];
             str = str.substring(1, str.length() - 1);
             String[] tokens = str.split(",");
             int[] pos = new int[3];
@@ -29,7 +29,7 @@ public class NBody {
 
     private void applyGravity(int k) {
         for (int i = 0; i < moons.length; i++)
-        for (int j = i + 1; j < moons.length; j++) {
+            for (int j = i + 1; j < moons.length; j++) {
                 if (moons[i].pos[k] < moons[j].pos[k]) {
                     moons[i].velocity[k]++;
                     moons[j].velocity[k]--;
@@ -37,7 +37,7 @@ public class NBody {
                     moons[i].velocity[k]--;
                     moons[j].velocity[k]++;
                 }
-        }
+            }
     }
 
     private String getState(int d) {
@@ -107,25 +107,16 @@ public class NBody {
 
 
     public static void main(String[] args) {
-        try {
-            URL url = NBody.class.getClassLoader().getResource("day12/input");
-            assert url != null;
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            List<String> data = new LinkedList<>();
-            while (scanner.hasNextLine()) {
-                data.add(scanner.nextLine());
-            }
-            NBody nBody = new NBody(data);
-            System.out.println(nBody.findHowManyRoundsToRepeat());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String[] data = AocInputReader.readLines("day12/input");
+        NBody nBody = new NBody(data);
+        System.out.println(nBody.findHowManyRoundsToRepeat());
     }
 }
 
 class Moon {
     int[] pos;
     int[] velocity;
+
     public Moon(int[] pos) {
         this.pos = pos;
         this.velocity = new int[3];

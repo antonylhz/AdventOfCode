@@ -1,10 +1,9 @@
 package day13;
 
 import day5.IntCodeComputer;
+import util.AocInputReader;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 public class BreakoutGame {
@@ -27,7 +26,7 @@ public class BreakoutGame {
         run();
     }
 
-    public void run () {
+    public void run() {
         List<List<Tile>> tiles = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
             tiles.add(new ArrayList<>());
@@ -143,26 +142,16 @@ public class BreakoutGame {
         System.out.println(sb);
     }
 
-
     public static void main(String[] args) {
-        try {
-            URL url = BreakoutGame.class.getClassLoader().getResource("day13/input");
-            assert url != null;
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            while (scanner.hasNextLine()) {
-                String[] tokens = scanner.nextLine().split(",");
-                long[] data = new long[tokens.length];
-                for (int i = 0; i < tokens.length; i++) {
-                    data[i] = Long.parseLong(tokens[i]);
-                }
-                data[0] = 2;
-                BreakoutGame breakoutGame = new BreakoutGame(data);
-                breakoutGame.playGame(false);
-                System.out.println("Game finished! Score = " + breakoutGame.score);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        String[] tokens = AocInputReader.readLines("day13/input")[0].split(",");
+        long[] data = new long[tokens.length];
+        for (int i = 0; i < tokens.length; i++) {
+            data[i] = Long.parseLong(tokens[i]);
         }
+        data[0] = 2;
+        BreakoutGame breakoutGame = new BreakoutGame(data);
+        breakoutGame.playGame(false);
+        System.out.println("Game finished! Score = " + breakoutGame.score);
     }
 
 }
@@ -172,6 +161,7 @@ class Tile {
     int y;
     int val;
     boolean isSegmentDisplay;
+
     public Tile(LinkedList<Long> outputs) {
         this.x = outputs.pollFirst().intValue();
         this.y = outputs.poll().intValue();

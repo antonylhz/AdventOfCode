@@ -1,7 +1,7 @@
 package day8;
 
-import java.io.File;
-import java.net.URL;
+import util.AocInputReader;
+
 import java.util.*;
 
 public class SpaceImageFormat {
@@ -73,25 +73,17 @@ public class SpaceImageFormat {
         else return original;
     }
 
-    public static void main (String[] args) {
-        try {
-            URL url = SpaceImageFormat.class.getClassLoader().getResource("day8/input");
-            assert url != null;
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            while (scanner.hasNextLine()) {
-                String str = scanner.nextLine();
-                int[] data = new int[str.length()];
-                for (int i = 0; i < data.length; i++) {
-                    data[i] = str.charAt(i) - '0';
-                }
-                SpaceImageFormat spaceImageFormat =
-                        new SpaceImageFormat(data, 25, 6);
-                System.out.println(spaceImageFormat.findFewestZeroLayer());
-                spaceImageFormat.printAlignedImage();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static void main(String[] args) {
+
+        String str = AocInputReader.readLines("day8/input")[0];
+        int[] data = new int[str.length()];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = str.charAt(i) - '0';
         }
+        SpaceImageFormat spaceImageFormat =
+                new SpaceImageFormat(data, 25, 6);
+        System.out.println(spaceImageFormat.findFewestZeroLayer());
+        spaceImageFormat.printAlignedImage();
     }
 
 }

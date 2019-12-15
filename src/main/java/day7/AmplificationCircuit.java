@@ -1,9 +1,8 @@
 package day7;
 
 import day5.IntCodeComputer;
+import util.AocInputReader;
 
-import java.io.File;
-import java.net.URL;
 import java.util.*;
 
 public class AmplificationCircuit {
@@ -49,7 +48,7 @@ public class AmplificationCircuit {
 
     public long calculateSignalInFeedbackLoop(List<Integer> phaseSettings) {
         long signal = calculateSignal(phaseSettings, true, 0);
-        while(!amplifiers.isEmpty() && !amplifiers.peekLast().isHalted) {
+        while (!amplifiers.isEmpty() && !amplifiers.peekLast().isHalted) {
             signal = calculateSignal(phaseSettings, false, signal);
         }
         return signal;
@@ -86,32 +85,23 @@ public class AmplificationCircuit {
         List<List<Integer>> ps = permute(start, end - 1);
         List<List<Integer>> res = new LinkedList<>();
         for (int i = 0; i <= end - start; i++) {
-            for (List<Integer> p: ps) {
+            for (List<Integer> p : ps) {
                 List<Integer> np = new LinkedList<>(p);
-                np.add(i,  end);
+                np.add(i, end);
                 res.add(np);
             }
         }
         return res;
     }
 
-    public static void main (String[] args) {
-        try {
-            URL url = AmplificationCircuit.class.getClassLoader().getResource("day7/input");
-            assert url != null;
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            while (scanner.hasNextLine()) {
-                String[] tokens = scanner.nextLine().split(",");
-                long[] data = new long[tokens.length];
-                for (int i = 0; i < data.length; i++) {
-                    data[i] = Long.parseLong(tokens[i]);
-                }
-                AmplificationCircuit amplificationCircuit = new AmplificationCircuit(data, 5);
-                System.out.println(amplificationCircuit.findLargestSignalInOneLoop());
-                System.out.println(amplificationCircuit.findLargestSignalInFeedbackLoop());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static void main(String[] args) {
+        String[] tokens = AocInputReader.readLines("day7/input")[0].split(",");
+        long[] data = new long[tokens.length];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = Long.parseLong(tokens[i]);
         }
+        AmplificationCircuit amplificationCircuit = new AmplificationCircuit(data, 5);
+        System.out.println(amplificationCircuit.findLargestSignalInOneLoop());
+        System.out.println(amplificationCircuit.findLargestSignalInFeedbackLoop());
     }
 }

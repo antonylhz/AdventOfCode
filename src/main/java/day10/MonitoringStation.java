@@ -1,7 +1,7 @@
 package day10;
 
-import java.io.File;
-import java.net.URL;
+import util.AocInputReader;
+
 import java.util.*;
 
 public class MonitoringStation {
@@ -87,7 +87,7 @@ public class MonitoringStation {
     private int gcd(int x, int y) {
         x = Math.abs(x);
         y = Math.abs(y);
-        while(y > 0) {
+        while (y > 0) {
             int t = y;
             y = x % y;
             x = t;
@@ -96,32 +96,25 @@ public class MonitoringStation {
     }
 
     public static void main(String[] args) {
-        try {
-            URL url = MonitoringStation.class.getClassLoader().getResource("day10/input");
-            assert url != null;
-            LinkedList<LinkedList<Boolean>> data = new LinkedList<>();
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            while (scanner.hasNextLine()) {
-                String str = scanner.nextLine();
-                LinkedList<Boolean> line = new LinkedList<>();
-                for (char c : str.toCharArray()) {
-                    line.add(c == '#');
-                }
-                data.add(line);
+        String[] strs = AocInputReader.readLines("day10/input");
+        LinkedList<LinkedList<Boolean>> data = new LinkedList<>();
+        for (String str : strs) {
+            LinkedList<Boolean> line = new LinkedList<>();
+            for (char c : str.toCharArray()) {
+                line.add(c == '#');
             }
-            MonitoringStation monitoringStationFinder = new MonitoringStation(data);
-            Asteroid asteroid = monitoringStationFinder.findBestAsteroid();
-            System.out.println(monitoringStationFinder.vaporizeFullRotation(asteroid).get(199));
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            data.add(line);
         }
+        MonitoringStation monitoringStationFinder = new MonitoringStation(data);
+        Asteroid asteroid = monitoringStationFinder.findBestAsteroid();
+        System.out.println(monitoringStationFinder.vaporizeFullRotation(asteroid).get(199));
     }
 }
 
 class Asteroid {
     int x;
     int y;
+
     public Asteroid(int x, int y) {
         this.x = x;
         this.y = y;

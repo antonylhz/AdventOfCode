@@ -1,8 +1,7 @@
 package day6;
 
-import java.io.File;
-import java.lang.management.PlatformLoggingMXBean;
-import java.net.URL;
+import util.AocInputReader;
+
 import java.util.*;
 
 public class UniversalOrbitMap {
@@ -83,21 +82,16 @@ public class UniversalOrbitMap {
     }
 
     public static void main(String[] args) {
-        try {
-            URL url = UniversalOrbitMap.class.getClassLoader().getResource("day6/input");
-            assert url != null;
-            List<String[]> data = new ArrayList<>();
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            while (scanner.hasNextLine()) {
-                data.add(scanner.nextLine().split("\\)"));
-            }
-            String[][] dataArray = new String[data.size()][2];
-            UniversalOrbitMap universalOrbitMap = new UniversalOrbitMap(data.toArray(dataArray));
-            //System.out.println(universalOrbitMap.findOrbitTotal());
-            System.out.println(universalOrbitMap.findShortestTransfer("YOU", "SAN") - 2);
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        String[] lines = AocInputReader.readLines("day6/input");
+        List<String[]> data = new ArrayList<>();
+        for (String line : lines) {
+            data.add(line.split("\\)"));
         }
+        String[][] dataArray = new String[data.size()][2];
+        UniversalOrbitMap universalOrbitMap = new UniversalOrbitMap(data.toArray(dataArray));
+        System.out.println(universalOrbitMap.findOrbitTotal());
+        System.out.println(universalOrbitMap.findShortestTransfer("YOU", "SAN") - 2);
     }
 }
 
@@ -106,6 +100,7 @@ class Planet {
     Planet parent;
     Set<Planet> satellites;
     Set<Planet> neighbors;
+
     public Planet(String name) {
         this.name = name;
         this.satellites = new HashSet<>();

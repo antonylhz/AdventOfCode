@@ -1,9 +1,6 @@
 package day1;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.Scanner;
+import util.AocInputReader;
 
 public class RocketFuel {
 
@@ -26,16 +23,9 @@ public class RocketFuel {
     public static void main(String[] args) {
         RocketFuel rocketFuel = new RocketFuel();
         int res = 0;
-        try {
-            URL url = rocketFuel.getClass().getClassLoader().getResource("day1/RocketComponentMasses");
-            assert url != null;
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                res += rocketFuel.part2(Integer.parseInt(line));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        String[] lines = AocInputReader.readLines("day1/input");
+        for (String line : lines) {
+            res += rocketFuel.part2(Integer.parseInt(line));
         }
         System.out.println(res);
     }

@@ -1,9 +1,8 @@
 package day11;
 
 import day5.IntCodeComputer;
+import util.AocInputReader;
 
-import java.io.File;
-import java.net.URL;
 import java.util.*;
 
 public class PaintingRobot {
@@ -58,24 +57,13 @@ public class PaintingRobot {
     }
 
     public static void main(String[] args) {
-        try {
-            URL url = PaintingRobot.class.getClassLoader().getResource("day11/input");
-            assert url != null;
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            while (scanner.hasNextLine()) {
-                String[] tokens = scanner.nextLine().split(",");
-                long[] data = new long[tokens.length];
-                for (int i = 0; i < tokens.length; i++) {
-                    data[i] = Long.parseLong(tokens[i]);
-                }
-                PaintingRobot robot = new PaintingRobot(data);
-                robot.paint();
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        String[] tokens = AocInputReader.readLines("day11/input")[0].split(",");
+        long[] data = new long[tokens.length];
+        for (int i = 0; i < tokens.length; i++) {
+            data[i] = Long.parseLong(tokens[i]);
         }
+        PaintingRobot robot = new PaintingRobot(data);
+        robot.paint();
     }
 }
 
@@ -137,6 +125,7 @@ enum Direction {
 class Position {
     int x;
     int y;
+
     public Position(int x, int y) {
         this.x = x;
         this.y = y;

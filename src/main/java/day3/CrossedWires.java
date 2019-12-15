@@ -1,7 +1,7 @@
 package day3;
 
-import java.io.File;
-import java.net.URL;
+import util.AocInputReader;
+
 import java.util.*;
 
 public class CrossedWires {
@@ -32,7 +32,7 @@ public class CrossedWires {
         Point intersection;
 
         for (Map.Entry<Point, Integer> entry : map2.entrySet()) {
-            if (map1.containsKey(intersection =entry.getKey())) {
+            if (map1.containsKey(intersection = entry.getKey())) {
                 int combined = map1.get(intersection) + map2.get(intersection);
                 if (combined != 0)
                     min = Math.min(min, combined);
@@ -41,28 +41,24 @@ public class CrossedWires {
         return min;
     }
 
-    public static void main (String[] args) {
-        try {
-            URL url = CrossedWires.class.getClassLoader().getResource("day3/input");
-            assert url != null;
-            Scanner scanner = new Scanner(new File(url.getFile()));
-            String[] steps1 = scanner.nextLine().split(",");
-            String[] steps2 = scanner.nextLine().split(",");
-            CrossedWires crossedWires = new CrossedWires(new Wire(steps1), new Wire(steps2));
-            System.out.println(crossedWires.findClosestIntersection2());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) {
+        String[] lines = AocInputReader.readLines("day3/input");
+        String[] steps1 = lines[0].split(",");
+        String[] steps2 = lines[1].split(",");
+        CrossedWires crossedWires = new CrossedWires(new Wire(steps1), new Wire(steps2));
+        System.out.println(crossedWires.findClosestIntersection2());
     }
 }
 
 class Point {
     int x;
     int y;
+
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
+
     public Point(Point point, int[] diff) {
         this.x = point.x + diff[0];
         this.y = point.y + diff[1];
@@ -84,7 +80,7 @@ class Point {
 }
 
 class Wire {
-    private static final int[][] DIR = new int[][] {
+    private static final int[][] DIR = new int[][]{
             {0, 1},   // U
             {0, -1},  // D
             {1, 0},   // R
@@ -92,6 +88,7 @@ class Wire {
     };
 
     LinkedList<Point> path;
+
     public Wire(String[] steps) {
         this.path = new LinkedList<>();
         this.path.addLast(new Point(0, 0));
