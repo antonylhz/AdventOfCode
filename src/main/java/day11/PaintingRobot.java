@@ -7,13 +7,11 @@ import java.util.*;
 
 public class PaintingRobot {
 
-    private long[] data;
     private IntCodeComputer intCodeComputer;
     private State state;
     private Map<Position, Long> colorMap;
 
     public PaintingRobot(long[] data) {
-        this.data = data;
         this.intCodeComputer = new IntCodeComputer(1_000_000, data);
         this.state = new State(0, 0);
         this.colorMap = new HashMap<>();
@@ -22,8 +20,7 @@ public class PaintingRobot {
     public void paint() {
         colorMap.put(state.getCurrentPosition(), 1L);
         while (!intCodeComputer.isHalted) {
-            LinkedList<Long> inputs = new LinkedList<>(Collections.singleton(getCurrentColor()));
-            LinkedList<Long> outputs = intCodeComputer.run(inputs);
+            LinkedList<Long> outputs = intCodeComputer.run(getCurrentColor());
             colorMap.put(state.getCurrentPosition(), outputs.pollFirst());
             state.turn(outputs.pollFirst().equals(1L));
         }

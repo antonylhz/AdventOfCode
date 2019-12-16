@@ -106,8 +106,7 @@ public class RepairDrone {
     }
 
     private int sendCommand(int dir) {
-        LinkedList<Long> inputs = new LinkedList<>(Collections.singleton((long) dir));
-        return intCodeComputer.run(inputs).pollFirst().intValue();
+        return intCodeComputer.run(dir).pollFirst().intValue();
     }
 
     public static void main(String[] args) {
@@ -127,10 +126,6 @@ class Position {
     int y;
 
     public Position(int x, int y) {
-        this(x, y, -1);
-    }
-
-    public Position(int x, int y, int status) {
         this.x = x;
         this.y = y;
     }

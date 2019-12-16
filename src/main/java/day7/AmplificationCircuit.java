@@ -29,19 +29,18 @@ public class AmplificationCircuit {
     }
 
     private long calculateSignal(List<Integer> phaseSettings, boolean firstLoop, long start) {
-        LinkedList<Long> input = new LinkedList<>();
         LinkedList<Long> output;
         long extra = start;
         for (int i = 0; i < amplifiers.size(); i++) {
             if (firstLoop) {
-                input.add((long) phaseSettings.get(i));
+                output = amplifiers.get(i).run(phaseSettings.get(i), extra);
+            } else {
+                output = amplifiers.get(i).run(extra);
             }
-            input.add(extra);
-            if ((output = amplifiers.get(i).run(input)).isEmpty()) {
+            if (output.isEmpty()) {
                 throw new IllegalStateException("No output!");
             }
-            extra = output.peekLast();
-            input.clear();
+            extra = output.poll();
         }
         return extra;
     }

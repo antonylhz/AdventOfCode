@@ -14,25 +14,23 @@ public class BreakoutGame {
     private int[][] screen;
     private int width, height;
     private int paddle, ball, blocks;
-    private LinkedList<Long> inputs;
 
     public BreakoutGame(long[] program) {
         this.intCodeComputer = new IntCodeComputer(1_000_000, program);
         this.score = 0;
         this.systemInput = new Scanner(System.in);
         this.screen = null;
-        this.inputs = new LinkedList<>();
         this.blocks = 0;
         run();
     }
 
-    public void run() {
+    public void run(long... args) {
         List<List<Tile>> tiles = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
             tiles.add(new ArrayList<>());
         }
 
-        LinkedList<Long> outputs = intCodeComputer.run(inputs);
+        LinkedList<Long> outputs = intCodeComputer.run(args);
         while (!outputs.isEmpty()) {
             Tile tile = new Tile(outputs);
             if (tile.isSegmentDisplay) {
@@ -48,35 +46,33 @@ public class BreakoutGame {
     public void playGame(boolean manual) {
         do {
             if (manual) {
-                inputs.offer(getJoyStickPosition());
+                run(getJoyStickPosition());
             } else {
-                movePaddleToBall();
+                run(movePaddleToBall());
             }
-            run();
             printGameState();
         } while (blocks > 0);
     }
 
-    private void movePaddleToBall() {
-        long nextInput = 0L;
+    private int movePaddleToBall() {
+        int nextInput = 0;
         if (paddle < ball) { // go right
             nextInput = 1;
         } else if (paddle > ball) { // go left
             nextInput = -1;
         }
-
-        inputs.offer(nextInput);
+        return nextInput;
     }
 
-    private Long getJoyStickPosition() {
+    private int getJoyStickPosition() {
         String str = systemInput.nextLine();
         switch (str) {
             case "b":
-                return -1L;
+                return -1;
             case "n":
-                return 0L;
+                return 0;
             case "m":
-                return 1L;
+                return 1;
             default:
                 return getJoyStickPosition();
         }

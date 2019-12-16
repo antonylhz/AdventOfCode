@@ -10,6 +10,7 @@ public class IntCodeComputer {
     private int ip;
     private int relativeBase;
     public boolean isHalted;
+    private LinkedList<Long> input;
     private LinkedList<Long> output;
 
     public IntCodeComputer(int memorySize, long[] data) {
@@ -18,10 +19,15 @@ public class IntCodeComputer {
         this.ip = 0;
         this.relativeBase = 0;
         this.isHalted = false;
+        this.input = new LinkedList<>();
         this.output = new LinkedList<>();
     }
 
-    public LinkedList<Long> run(final LinkedList<Long> inputs) {
+    public LinkedList<Long> run(long... args) {
+        for (long arg : args) {
+            input.offer(arg);
+        }
+
         if (isHalted) {
             return output;
         }
@@ -36,12 +42,12 @@ public class IntCodeComputer {
                     multiply();
                     break;
                 case 3:
-                    if (inputs.isEmpty()) {
+                    if (input.isEmpty()) {
                         // The program is out of input,
                         // hence pauses and wait for the next input
                         break outerLoop;
                     }
-                    read(inputs.pollFirst());
+                    read(input.pollFirst());
                     break;
                 case 4:
                     write();
@@ -177,8 +183,7 @@ public class IntCodeComputer {
         for (int i = 0; i < data.length; i++) {
             data[i] = Long.parseLong(tokens[i]);
         }
-        LinkedList<Long> input = new LinkedList<>(Collections.singletonList(5L));
-        System.out.println(new IntCodeComputer(data.length, data).run(input));
+        System.out.println(new IntCodeComputer(data.length, data).run(5L));
     }
 
 }
