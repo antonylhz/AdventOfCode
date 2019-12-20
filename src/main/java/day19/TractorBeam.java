@@ -3,6 +3,8 @@ package day19;
 import day5.IntCodeComputer;
 import util.AocInputReader;
 
+import java.util.Objects;
+
 public class TractorBeam {
 
     private long[] program;
@@ -28,8 +30,8 @@ public class TractorBeam {
     private void printGrid(boolean[][] grid) {
         StringBuilder sb = new StringBuilder();
         for (boolean[] line : grid) {
-            for (int c = 0; c < line.length; c++) {
-                sb.append(line[c] ? "#" : ".");
+            for (boolean b : line) {
+                sb.append(b ? "#" : ".");
             }
             sb.append("\n");
         }
@@ -55,9 +57,9 @@ public class TractorBeam {
     }
 
     private boolean isPulled(int r, int c) {
-       return new IntCodeComputer(1_000_000, program)
+       return Objects.requireNonNull(new IntCodeComputer(1_000_000, program)
                .run(c, r)
-               .poll()
+               .poll())
                .intValue() == 1;
     }
 

@@ -25,4 +25,17 @@ public class AocInputReader {
         return data.toArray(res);
     }
 
+    public static char[][] readCharMatrix(String fileName) {
+        String[] lines = readLines(fileName);
+        int height = lines.length, width = 0;
+        for (String line : lines) width = Math.max(width, line.length());
+        char[][] res = new char[height][width];
+        for (int r = 0; r < height; r++)
+            for (int c = 0; c < lines[r].length(); c++) {
+                res[r][c] = lines[r].charAt(c);
+            }
+        return res;
+    }
+
+
 }
