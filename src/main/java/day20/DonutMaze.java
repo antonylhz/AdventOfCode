@@ -75,7 +75,7 @@ public class DonutMaze {
     public int findShortestPath(String entranceId, String exitId) {
         Node entrance = idMap.get(entranceId).get(0);
         Node exit = idMap.get(exitId).get(0);
-        return GraphUtils.findShortedDistance(entrance, exit, portalMap);
+        return GraphUtils.findShortestDistance(entrance, exit, portalMap);
     }
 
     public int findShortestPathInRecursiveSpace(String entranceId, String exitId) {

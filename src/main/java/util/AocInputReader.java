@@ -37,5 +37,14 @@ public class AocInputReader {
         return res;
     }
 
+    public static long[] readIntCodeProgram(String fileName) {
+        String[] tokens = readLines(fileName)[0].split(",");
+        long[] res = new long[tokens.length];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = Long.parseLong(tokens[i]);
+        }
+        return res;
+    }
+
 
 }

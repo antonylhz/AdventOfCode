@@ -4,7 +4,7 @@ import java.util.*;
 
 public class GraphUtils {
 
-    public static <T extends Linkable<T>> int findShortedDistance(
+    public static <T extends Linkable<T>> int findShortestDistance(
             T from, T to, Map<T, T> shortcuts) {
         Map<T, Integer> distMap = new HashMap<>();
         distMap.put(from, 0);
