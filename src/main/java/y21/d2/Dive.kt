@@ -1,10 +1,10 @@
-package d2
+package y21.d2
 
 import util.AocInputReader
 
 fun main() {
     val submarine = Submarine()
-    AocInputReader.readLines("d2/input")
+    AocInputReader.readLines("y21/d2/input")
             .map { it.split(" ") }
             .map {
                 submarine.exec2(

@@ -1,4 +1,4 @@
-package y21d4
+package y21.d4
 
 import util.AocInputReader
 
@@ -6,7 +6,7 @@ fun main() {
     part2()
 }
 
-fun part1() {
+private fun part1() {
     val (nums, boards) = read()
     nums.forEach { num ->
         boards.forEachIndexed { index, board ->
@@ -21,7 +21,7 @@ fun part1() {
     }
 }
 
-fun part2() {
+private fun part2() {
     val (nums, boards) = read()
     val wonBoards = mutableSetOf<Int>()
     nums.forEach { num ->
@@ -42,8 +42,8 @@ fun part2() {
     }
 }
 
-fun read(): Pair<List<Int>, List<Board>> {
-    val lines = AocInputReader.readLines("y21d4/input")
+private fun read(): Pair<List<Int>, List<Board>> {
+    val lines = AocInputReader.readLines("y21/d4/input")
     val nums = lines[0].split(",").map { Integer.parseInt(it) }
 
     val boards = mutableListOf<Board>()
