@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.Objects;
 
 public class Location {
-    int r;
-    int c;
+    public int r;
+    public int c;
 
     public Location(int r, int c) {
         this.r = r;
         this.c = c;
+    }
+
+    public Location(List<Integer> list) {
+        this(list.get(0), list.get(1));
     }
 
     public List<Location> getNeighbors(int height, int width) {
