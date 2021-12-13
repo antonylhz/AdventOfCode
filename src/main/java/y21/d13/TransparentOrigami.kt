@@ -9,8 +9,9 @@ fun main() {
     val folds = mutableListOf<Fold>()
     AocInputReader.readLines("y21/d13/input").forEach { line ->
         if (line.contains(',')) {
+            val tokens = line.split(",").map { it.toInt() }
             locations.add(
-                    Location(line.split(",").map { it.toInt() })
+                    Location(tokens[1], tokens[0])
             )
         } else if (line.contains('=')) {
             val index = line.indexOf('=')
@@ -24,13 +25,13 @@ fun main() {
         locations.map {
             if (fold.x) {
                 Location(
-                        if (it.r <= fold.value) it.r else 2 * fold.value - it.r,
-                        it.c
+                        it.r,
+                        if (it.c <= fold.value) it.c else 2 * fold.value - it.c
                 )
             } else {
                 Location(
-                        it.r,
-                        if (it.c <= fold.value) it.c else 2 * fold.value - it.c
+                        if (it.r <= fold.value) it.r else 2 * fold.value - it.r,
+                        it.c
                 )
             }
         }.toSet().apply {
@@ -51,12 +52,12 @@ fun Set<Location>.print() {
     var mx = 0
     var my = 0
     forEach {
-        mx = max(mx, it.r)
-        my = max(my, it.c)
+        mx = max(mx, it.c)
+        my = max(my, it.r)
     }
     for (y in 0..my) {
         for (x in 0..mx) {
-            if (contains(Location(x, y))) {
+            if (contains(Location(y, x))) {
                 print('#')
             } else {
                 print(' ')

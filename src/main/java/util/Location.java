@@ -13,10 +13,6 @@ public class Location {
         this.c = c;
     }
 
-    public Location(List<Integer> list) {
-        this(list.get(0), list.get(1));
-    }
-
     public List<Location> getNeighbors(int height, int width) {
         List<Location> res = new ArrayList<>();
         if (r > 0) res.add(new Location(r - 1, c));
